@@ -3,28 +3,32 @@ $(document).on('ready', function() {
   // Idempotent
   // Memoization
   var self = $(this);
-  var winningCombos = [[1, 2, 3],[4, 5, 6], [7, 8, 9]]; // top816, mid357, bot492 === 15
 
+
+
+  // Hover to change box color
   $('td').hover(
     function() {
-    self.addClass('hover');
+    $(this).addClass('hover');
   }, function() {
-    self.removeClass('hover');
+    $(this).removeClass('hover');
   }
   );
 
+
+  // Click event to handle class adding and prevent further events
+  // on same table box
   $('td').on('click', function() {
     // this === DOM element
     // $(this) === jQuery element
 
-
-    if (turn % 2) {
-      self.html('O').addClass('o');
+    if (turn % 2 === 1) {
+      $(this).html('O').addClass('o');
     } else {
-      self.html('X').addClass('x');
+      $(this).html('X').addClass('x');
     }
 
-    self.off('click');
+    $(this).off('click');
 
     checkForWinner();
 
@@ -33,7 +37,37 @@ $(document).on('ready', function() {
   });
 
   function checkForWinner() {
-    // $('.x')
-  }
+      var xBox = $('.x');
+      var oBox = $('.o');
+
+
+      for (var i = 0; i < xBox.length; i++) {
+        for (var j = i + 1; j < xBox.length; j++) {
+          for (var k = j + 1; k < xBox.length; k++) {
+            if (parseInt(xBox[i].id) + parseInt(xBox[j].id) + parseInt(xBox[k].id) === 15) {
+              alert("X is the Winner.");
+              resetGame();
+            }
+          }
+        }
+      }
+      for (var i = 0; i < oBox.length; i++) {
+        for (var j = i+1; j < oBox.length; j++) {
+          for (var k = j+1; k < oBox.length; k++) {
+            if (parseInt(oBox[i].id) + parseInt(oBox[j].id) + parseInt(oBox[k].id) === 15) {
+              alert("O is the Winner.");
+              resetGame();
+            }
+          }
+        }
+      }
+    }
+
+    function resetGame() {
+      result = window.confirm("Another game perhaps?");
+      if (result === true) {
+        location.reload();
+      }
+    }
 
 });
