@@ -36,6 +36,8 @@ $(document).on('ready', function() {
 
   });
 
+
+
   function checkForWinner() {
       var xBox = $('.x');
       var oBox = $('.o');
@@ -63,11 +65,15 @@ $(document).on('ready', function() {
       }
     }
 
+    
+
     function resetGame() {
       result = window.confirm("Another game perhaps?");
       if (result === true) {
         location.reload();
       }
     }
+
+
 
 });
